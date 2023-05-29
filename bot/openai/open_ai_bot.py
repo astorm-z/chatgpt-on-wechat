@@ -12,6 +12,7 @@ from bot.session_manager import SessionManager
 from bridge.context import ContextType
 from bridge.reply import Reply, ReplyType
 from common.log import logger
+from common.key_random import get_open_ai_key
 from config import conf
 
 user_session = dict()
@@ -21,7 +22,7 @@ user_session = dict()
 class OpenAIBot(Bot, OpenAIImage):
     def __init__(self):
         super().__init__()
-        openai.api_key = conf().get("open_ai_api_key")
+        openai.api_key = get_open_ai_key()
         if conf().get("open_ai_api_base"):
             openai.api_base = conf().get("open_ai_api_base")
         proxy = conf().get("proxy")

@@ -14,6 +14,7 @@ from bridge.context import ContextType
 from bridge.reply import Reply, ReplyType
 from common.log import logger
 from common.token_bucket import TokenBucket
+from common.key_random import get_open_ai_key
 from config import conf, load_config
 
 
@@ -22,7 +23,7 @@ class ChatGPTBot(Bot, OpenAIImage):
     def __init__(self):
         super().__init__()
         # set the default api_key
-        openai.api_key = conf().get("open_ai_api_key")
+        openai.api_key = get_open_ai_key()
         if conf().get("open_ai_api_base"):
             openai.api_base = conf().get("open_ai_api_base")
         proxy = conf().get("proxy")
@@ -65,7 +66,8 @@ class ChatGPTBot(Bot, OpenAIImage):
             session = self.sessions.session_query(query, session_id)
             logger.debug("[CHATGPT] session query={}".format(session.messages))
 
-            api_key = context.get("openai_api_key")
+            #api_key = context.get("openai_api_key")
+            api_key = get_open_ai_key()
             self.args['model'] = context.get('gpt_model') or "gpt-3.5-turbo"
             # if context.get('stream'):
             #     # reply in stream

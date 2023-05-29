@@ -11,6 +11,7 @@ from bridge.context import ContextType
 from bridge.reply import Reply, ReplyType
 from common import const
 from common.log import logger
+from common.key_random import get_open_ai_key
 from config import conf
 from plugins import *
 
@@ -134,7 +135,7 @@ class Tool(Plugin):
 
         return {
             "debug": kwargs.get("debug", False),
-            "openai_api_key": conf().get("open_ai_api_key", ""),
+            "openai_api_key": get_open_ai_key(),
             "open_ai_api_base": conf().get("open_ai_api_base", "https://api.openai.com/v1"),
             "proxy": conf().get("proxy", ""),
             "request_timeout": request_timeout if request_timeout else conf().get("request_timeout", 120),
